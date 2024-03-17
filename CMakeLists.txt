@@ -6,11 +6,15 @@ enable_testing()
 
 file(GLOB_RECURSE sources "src/*.cpp")
 
-add_executable(pcap_parser ${sources})
+file(COPY input DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY output DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY submissions DESTINATION ${CMAKE_BINARY_DIR})
+
+add_executable(sandbox ${sources})
 
 include_directories(include)
 
-target_link_libraries(pcap_parser PRIVATE pcap pthread)
+target_link_libraries(sandbox PRIVATE pthread)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})

@@ -3,7 +3,8 @@
 
 
 
-#include "include/evaluated_program.h"
+#include "./evaluated_program.h"
+#include "./program_limits.h"
 
 
 /**
@@ -41,10 +42,12 @@ typedef enum
 class Sandbox 
 {
     public:
-    Sandbox(char *argv[], char *evaluated_program_input_filename);
+    Sandbox(char *argv[], char *evaluated_program_input_filename, ProgramLimits *limits);
     int start();
-
-    ~Sandbox();
+    ~Sandbox()
+    {
+        delete pEvaluatedProgram;
+    }
 
 
     private:
@@ -55,8 +58,12 @@ class Sandbox
     int mOutPipe[2];
     int mErrPipe[2];
 
+    int mChildPid = 0; // Temporal
 
+
+    int writeInputPipe(char *evaluated_program_input_filename);
     int runProgram();
+    int runMainTracer();
 };
 
 
